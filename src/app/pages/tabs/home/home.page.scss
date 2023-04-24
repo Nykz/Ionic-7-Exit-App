@@ -17,7 +17,9 @@ ion-header {
 }
 
 ion-content {
-    .banners {
+    swiper-container.banners {
+        --swiper-pagination-bullet-inactive-color: var(--ion-color-medium);
+        --swiper-pagination-color: var(--ion-color-primary);
         height: 22vh;
         margin-top: 10px;
         img {

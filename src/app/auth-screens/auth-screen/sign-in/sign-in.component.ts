@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, IonicModule } from '@ionic/angular';
+import { AlertController, IonModal, IonicModule } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component';
+import { Keyboard } from '@capacitor/keyboard';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,6 +17,7 @@ import { ResetPasswordComponent } from '../reset-password/reset-password.compone
 })
 export class SignInComponent implements OnInit {
 
+  @ViewChild('forgot_pwd_modal') modal: IonModal;
   form: FormGroup;
   type = true;
   isLoading: boolean;
@@ -28,6 +31,30 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(Capacitor.getPlatform() =='android') {
+      Keyboard.addListener('keyboardWillShow', info => {
+        console.log('keyboard will show with height:', info.keyboardHeight);
+        this.moveTo(0.9);
+      });
+      
+      Keyboard.addListener('keyboardDidShow', info => {
+        console.log('keyboard did show with height:', info.keyboardHeight);
+      });
+      
+      Keyboard.addListener('keyboardWillHide', () => {
+        console.log('keyboard will hide');
+      });
+      
+      Keyboard.addListener('keyboardDidHide', () => {
+        console.log('keyboard did hide');
+        this.moveTo(0.5);
+      });
+    }
+  }
+
+  moveTo(breakpoint: number) {
+    console.log('present');
+    this.modal.setCurrentBreakpoint(breakpoint);
   }
 
   customCounterFormatter(inputLength: number, maxLength: number) {

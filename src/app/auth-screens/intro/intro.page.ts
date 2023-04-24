@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonicSlides } from '@ionic/angular';
 import { INTRO_KEY, StorageService } from 'src/app/services/storage/storage.service';
 import { Router } from '@angular/router';
 import { SwiperOptions } from 'swiper';
-import { SwiperModule } from 'swiper/angular';
+// import { SwiperModule } from 'swiper/angular';
 
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.page.html',
   styleUrls: ['./intro.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, SwiperModule]
+  imports: [IonicModule, CommonModule, FormsModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IntroPage  implements OnInit {
 
+  swiperModules = [IonicSlides];
   slideOpts: SwiperOptions = {};
 
   constructor(

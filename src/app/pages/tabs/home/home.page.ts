@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, PopoverController } from '@ionic/angular';
+import { IonicModule, IonicSlides, PopoverController } from '@ionic/angular';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { ApiService } from 'src/app/services/api/api.service';
 import { PopoverComponent } from './popover/popover.component';
@@ -13,10 +13,14 @@ import { RouterModule } from '@angular/router';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule, RestaurantComponent]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule, RestaurantComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit {
 
+  swiperModules = [IonicSlides];
+  @ViewChild('swiper')
+  swiperRef: ElementRef | undefined;
   loc = 'Locating...';
   banners: any[] = [];
   categories: any[] = [];
@@ -42,6 +46,11 @@ export class HomePage implements OnInit {
     this.offers = offers.sort((a,b) => parseInt(b.id) - parseInt(a.id));
     this.nearby = this.api.allRestaurants;
     this.getCurrentLocation();
+  }
+
+  onSlideChange(event: any) {
+    console.log(this.swiperRef?.nativeElement.swiper.activeIndex);
+    console.log('event', event);
   }
 
   async getCurrentLocation() {

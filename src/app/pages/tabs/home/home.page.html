@@ -13,15 +13,31 @@
 <ion-content color="light">
 
   <ion-row>
-    <swiper [config]="bannerConfig" class="banners">
+    <!-- <swiper [config]="bannerConfig" class="banners">
       <ng-template swiperSlide *ngFor="let banner of banners">
         <img [src]="banner?.banner" />
       </ng-template>
-    </swiper>
+    </swiper> -->
+    <swiper-container 
+      class="banners"
+      #swiper
+      (slidechange)="onSlideChange($event)"
+      [modules]="swiperModules"
+      [slidesPerView]="1.2"
+      [initialSlide]="this.banners?.length > 1 ? 1 : 0"
+      [centeredSlides]="true"
+      [autoplay]="{ delay: 3000 }"
+      [spaceBetween]="20"
+      [pagination]="{clickable: true, dynamicBullets: true}">
+      <!-- effect="flip" -->
+      <swiper-slide *ngFor="let banner of banners">
+        <img [src]="banner?.banner" />
+      </swiper-slide>
+    </swiper-container>
   </ion-row>
 
   <ion-row class="ion-text-center category" *ngIf="categories?.length > 0">
-    <swiper [config]="categoryConfig">
+    <!-- <swiper [config]="categoryConfig">
       <ng-template swiperSlide *ngFor="let category of categories">
         <div align="center">
           <ion-avatar slot="start">
@@ -30,7 +46,19 @@
         </div>
         <ion-label class="ion-text-wrap">{{category?.name}}</ion-label>
       </ng-template>
-    </swiper>
+    </swiper> -->
+    <swiper-container 
+      [modules]="swiperModules"
+      [slidesPerView]="3.5">
+      <swiper-slide *ngFor="let category of categories">
+        <div align="center">
+          <ion-avatar slot="start">
+            <img [src]="category?.image" />
+          </ion-avatar>
+        </div>
+        <ion-label class="ion-text-wrap">{{category?.name}}</ion-label>
+      </swiper-slide>
+    </swiper-container>
   </ion-row>
 
   <ion-row *ngIf="favorites?.length > 0">
@@ -45,13 +73,22 @@
         <ion-icon color="primary" name="chevron-forward-circle-outline" slot="end"></ion-icon>
       </ion-button>
     </ion-col>
-    <swiper [config]="restaurantConfig">
+    <!-- <swiper [config]="restaurantConfig">
       <ng-template swiperSlide *ngFor="let favorite of favorites">
         <ion-card>
           <app-restaurant [restaurant]="favorite" [routerLink]="['/', 'tabs', 'restaurants', favorite?.id]"></app-restaurant>
         </ion-card>
       </ng-template>
-    </swiper>
+    </swiper> -->
+    <swiper-container 
+      [modules]="swiperModules"
+      [slidesPerView]="1.1">
+      <swiper-slide *ngFor="let favorite of favorites">
+        <ion-card>
+          <app-restaurant [restaurant]="favorite" [routerLink]="['/', 'tabs', 'restaurants', favorite?.id]"></app-restaurant>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
   </ion-row>
 
   <ion-row *ngIf="offers?.length > 0">
@@ -66,13 +103,22 @@
         <ion-icon color="primary" name="chevron-forward-circle-outline" slot="end"></ion-icon>
       </ion-button>
     </ion-col>
-    <swiper [config]="restaurantConfig">
+    <!-- <swiper [config]="restaurantConfig">
       <ng-template swiperSlide *ngFor="let offer of offers">
         <ion-card>
           <app-restaurant [restaurant]="offer" [routerLink]="['/', 'tabs', 'restaurants', offer?.id]"></app-restaurant>
         </ion-card>
       </ng-template>
-    </swiper>
+    </swiper> -->
+    <swiper-container 
+      [modules]="swiperModules"
+      [slidesPerView]="1.1">
+      <swiper-slide *ngFor="let offer of offers">
+        <ion-card>
+          <app-restaurant [restaurant]="offer" [routerLink]="['/', 'tabs', 'restaurants', offer?.id]"></app-restaurant>
+        </ion-card>
+      </swiper-slide>
+    </swiper-container>
   </ion-row>
 
   <ion-list *ngIf="nearby?.length > 0">
